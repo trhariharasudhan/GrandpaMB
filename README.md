@@ -139,4 +139,3 @@ GrandpaMB/
    ├─ grandpa_link.py    # PC bridge (Wokwi or real COM port)
    └─ test_grandpa_link.py
 ```
-"# GrandpaMB" 

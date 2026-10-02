@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "author": "Hari Hara Sudhan (Captain)",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+
+    { "type": "board-ssd1306", "id": "oled", "top": -150, "left": 140, "attrs": { "i2cAddress": "0x3c" } },
+    { "type": "wokwi-led-ring", "id": "ring", "top": -230, "left": -200, "attrs": { "pixels": "12" } },
+
+    { "type": "wokwi-pushbutton", "id": "btnWake", "top": 250, "left": -220, "attrs": { "color": "green", "label": "WAKE" } },
+    { "type": "wokwi-pushbutton", "id": "btnMute", "top": 320, "left": -220, "attrs": { "color": "red", "label": "MUTE" } },
+
+    { "type": "wokwi-dht22", "id": "dht", "top": -100, "left": 380, "attrs": { "temperature": "29", "humidity": "65" } },
+    { "type": "wokwi-pir-motion-sensor", "id": "pir", "top": 60, "left": 380, "attrs": {} },
+    { "type": "wokwi-photoresistor-sensor", "id": "ldr", "top": 200, "left": 380, "attrs": {} },
+
+    { "type": "wokwi-relay-module", "id": "relay", "top": 300, "left": 160, "attrs": {} },
+    { "type": "wokwi-buzzer", "id": "buzzer", "top": 250, "left": -60, "attrs": { "volume": "0.2" } },
+
+    { "type": "wokwi-led", "id": "ledStatus", "top": 120, "left": -160, "attrs": { "color": "blue", "label": "STATUS" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": 190, "left": -170, "rotate": 90, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "oled:GND", "esp:GND.1", "black", [] ],
+    [ "oled:VCC", "esp:3V3.1", "red", [] ],
+    [ "oled:SDA", "esp:8", "blue", [] ],
+    [ "oled:SCL", "esp:9", "yellow", [] ],
+
+    [ "ring:GND", "esp:GND.1", "black", [] ],
+    [ "ring:VCC", "esp:5V", "red", [] ],
+    [ "ring:DIN", "esp:5", "green", [] ],
+
+    [ "btnWake:1.l", "esp:4", "green", [] ],
+    [ "btnWake:2.l", "esp:GND.2", "black", [] ],
+    [ "btnMute:1.l", "esp:6", "orange", [] ],
+    [ "btnMute:2.l", "esp:GND.2", "black", [] ],
+
+    [ "dht:VCC", "esp:3V3.2", "red", [] ],
+    [ "dht:GND", "esp:GND.3", "black", [] ],
+    [ "dht:SDA", "esp:15", "violet", [] ],
+
+    [ "pir:VCC", "esp:5V", "red", [] ],
+    [ "pir:GND", "esp:GND.3", "black", [] ],
+    [ "pir:OUT", "esp:16", "magenta", [] ],
+
+    [ "ldr:VCC", "esp:3V3.2", "red", [] ],
+    [ "ldr:GND", "esp:GND.3", "black", [] ],
+    [ "ldr:AO", "esp:1", "gold", [] ],
+
+    [ "relay:VCC", "esp:5V", "red", [] ],
+    [ "relay:GND", "esp:GND.4", "black", [] ],
+    [ "relay:IN", "esp:17", "cyan", [] ],
+
+    [ "buzzer:1", "esp:GND.4", "black", [] ],
+    [ "buzzer:2", "esp:18", "purple", [] ],
+
+    [ "esp:2", "r1:1", "blue", [] ],
+    [ "r1:2", "ledStatus:A", "blue", [] ],
+    [ "ledStatus:C", "esp:GND.2", "black", [] ]
+  ],
+  "dependencies": {}
+}

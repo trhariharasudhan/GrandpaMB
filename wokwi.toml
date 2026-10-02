@@ -1,0 +1,10 @@
+# Wokwi for VS Code reads this file to know which firmware to run.
+# The paths only exist AFTER you build once with PlatformIO (pio run).
+[wokwi]
+version = 1
+firmware = '.pio/build/grandpamb/firmware.bin'
+elf = '.pio/build/grandpamb/firmware.elf'
+
+# Exposes the simulated ESP32 serial port on localhost:4000 so the
+# Python bridge (tools/grandpa_link.py) / Grandpa core can talk to it.
+rfc2217ServerPort = 4000
