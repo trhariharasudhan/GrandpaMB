@@ -55,6 +55,29 @@ Then `F1` → **Wokwi: Start Simulator**. Open `diagram.json` to see the circuit
 
 > "firmware not found" error = you didn't build yet. `wokwi.toml` points at `.pio/build/grandpamb/firmware.bin`.
 
+## Run without VS Code (wokwi-cli)
+
+wokwi-cli runs the same `wokwi.toml` + `diagram.json` from the terminal (the simulation runs on Wokwi's cloud, so you need internet).
+
+One time (cmd):
+```bat
+powershell -NoProfile -ExecutionPolicy Bypass -Command "iwr https://wokwi.com/ci/install.ps1 -useb | iex"
+:: create a CI token at https://wokwi.com/dashboard/ci, then:
+setx WOKWI_CLI_TOKEN <your-token>
+:: close ALL cmd windows (and VS Code) - setx only affects NEW terminals
+```
+Never commit the token or put it in any file in this repo.
+
+Every run (new cmd window, in the GrandpaMB folder):
+```bat
+wokwi-cli --version
+%USERPROFILE%\.platformio\penv\Scripts\pio.exe run
+wokwi-cli --timeout 15000 --expect-text "\"type\":\"hello\"" .
+wokwi-cli --timeout 30000 --scenario tests/smoke.test.yaml .
+```
+Exit code 0 = pass (`echo %ERRORLEVEL%`). The smoke test checks: hello → `ping`/pong →
+`state thinking` → `relay on` asks for confirmation (relay stays OFF) → `cancel`.
+
 ## Talk to it
 
 **A. Directly in Wokwi's serial monitor** (plain text works):
@@ -135,6 +158,8 @@ GrandpaMB/
 │  ├─ buttons.*          # debounced buttons (press / long-press)
 │  ├─ actuators.*        # relay, buzzer, LED
 │  └─ assistant_state.*  # shared state enum
+├─ tests/
+│  └─ smoke.test.yaml    # Wokwi automation scenario (wokwi-cli --scenario)
 └─ tools/
    ├─ grandpa_link.py    # PC bridge (Wokwi or real COM port)
    └─ test_grandpa_link.py
