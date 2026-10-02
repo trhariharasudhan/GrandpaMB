@@ -1,0 +1,34 @@
+# GrandpaMB smoke test (Wokwi automation scenario)
+#
+# Run (cmd, from the GrandpaMB folder, after building with pio):
+#   wokwi-cli --timeout 30000 --scenario tests/smoke.test.yaml .
+#
+# Plain-text commands are used here (the same ones you type in the serial monitor).
+# Each write-serial ends with \n because the firmware handles a line only when it sees a newline.
+# The expected strings match the compact JSON that ArduinoJson prints, for example:
+#   {"type":"reply","ok":true,"msg":"pong"}
+name: 'GrandpaMB smoke test'
+version: 1
+author: 'Hari Hara Sudhan'
+
+steps:
+  # 1. Boot: board announces itself
+  - wait-serial: '"type":"hello"'
+
+  # 2. Heartbeat
+  - write-serial: "ping\n"
+  - wait-serial: '"msg":"pong"'
+
+  # 3. Assistant state change
+  - write-serial: "state thinking\n"
+  - wait-serial: '"msg":"thinking"'
+
+  # 4. Safety: relay ON must NOT switch directly, it must ask for confirmation
+  - write-serial: "relay on\n"
+  - wait-serial: '"confirm_required":true'
+
+  # 5. Safety: relay is still OFF while confirmation is pending, then cancel it
+  - write-serial: "info\n"
+  - wait-serial: '"relay":false'
+  - write-serial: "cancel\n"
+  - wait-serial: '"msg":"cancelled"'
