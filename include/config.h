@@ -19,7 +19,7 @@
 // ---- Status LED ring (WS2812 / NeoPixel) ----
 #define PIN_RING          5
 #define RING_PIXELS       12
-#define RING_BRIGHTNESS   60      // 0-255, keep low: real LEDs draw ~60mA each at full white
+#define RING_BRIGHTNESS   150     // 0-255. 12 LEDs at full white = ~720mA; our colours stay well under USB's 500mA at 150
 
 // ---- Buttons (active LOW, internal pull-up) ----
 #define PIN_BTN_WAKE      4

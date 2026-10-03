@@ -34,7 +34,7 @@ void spinner(uint8_t r, uint8_t g, uint8_t b) {
 void renderFrame() {
   switch (current) {
     case AssistantState::Booting:   spinner(255, 255, 255); break;
-    case AssistantState::Idle:      fill(scale(0, 40, 120, 40 + breathe(tick, 40) / 4)); break;
+    case AssistantState::Idle:      fill(scale(0, 60, 255, 70 + breathe(tick, 40) / 3)); break;
     case AssistantState::Listening: fill(scale(0, 200, 255, 255)); break;
     case AssistantState::Thinking:  spinner(160, 0, 255); break;
     case AssistantState::Speaking:  fill(scale(0, 255, 80, 80 + breathe(tick, 8) * 2 / 3)); break;
